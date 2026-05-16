@@ -1,0 +1,123 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<CustomizedGiftShop.Models.Product>
+
+<div class="container-fluid mt-4">
+    <div class="row">
+
+        <!-- PRODUCTS -->
+        <div class="col-md-8">
+            <h4>Products</h4>
+            <div class="row row-cols-2 row-cols-md-4 g-3">
+                @foreach (var p in Model)
+                {
+                    bool outOfStock = p.Stock <= 0;
+                    <div class="col">
+                        <div class="card h-100 product-card @(outOfStock ? "opacity-50" : "")"
+                        style="cursor:@(outOfStock ? "not-allowed" : "pointer")"
+                        onclick="@(outOfStock ? "" : $"addToCart({p.ProductId}, '{p.Name}', {p.Price})")">
+                            <img src="@p.ImageUrl"
+                            class="card-img-top"
+                            style="height:120px; object-fit:contain;">
+                            <div class="card-body text-center">
+                                <strong>@p.Name</strong><br />
+                                <span>$@p.Price</span><br />
+
+                                @if (outOfStock)
+                                {
+                                    <span class="badge bg-danger">Out of Stock</span>
+                                }
+                            </div>
+                            </div>
+                        </div>
+                }
+            </div>
+        </div>
+
+        <!-- BILL -->
+        <div class="col-md-4">
+            <h4>Bill</h4>
+            <ul class="list-group mb-3" id="cartList"></ul>
+
+            <h5>Total: $<span id="total">0</span></h5>
+
+            <button class="btn btn-success w-100" onclick="checkout()">
+                Checkout
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    let cart = [];
+    let total = 0;
+
+    function addToCart(id, name, price) {
+        let item = cart.find(x => x.id === id);
+
+        if (item) {
+            item.qty++;
+        } else {
+            cart.push({ id, name, price, qty: 1 });
+        }
+
+        renderCart();
+    }
+
+    function renderCart() {
+        let list = document.getElementById("cartList");
+        list.innerHTML = "";
+        total = 0;
+
+        cart.forEach(i => {
+            total += i.price * i.qty;
+            list.innerHTML += `
+                <li class="list-group-item d-flex justify-content-between">
+                    ${i.name} x ${i.qty}
+                    <span>$${i.price * i.qty}</span>
+                </li>`;
+        });
+
+        document.getElementById("total").innerText = total;
+    }
+
+    function checkout() {
+        if (cart.length === 0) {
+            alert("Cart is empty");
+            return;
+        }
+
+        fetch('/POS/Checkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                items: cart.map(i => ({
+                    id: i.id,
+                    qty: i.qty
+                }))
+            })
+        })
+        .then(res => {
+            if (!res.ok) throw new Error("Checkout failed");
+            return res.json();
+        })
+        .then(data => {
+            alert("Order placed successfully! Order ID: " + data.orderId);
+            cart = [];
+            renderCart();
+            window.location.href = `/Order/Details/${data.orderId}`;
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Error placing order");
+        });
+    }
+</script>
+
+

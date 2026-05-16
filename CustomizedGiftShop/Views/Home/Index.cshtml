@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2 class="mb-4">Dashboard</h2>
+
+@if (User.IsInRole("Admin"))
+{
+        <partial name="_AdminDashboard" />
+}
+else if (User.IsInRole("Staff"))
+{
+        <partial name="_StaffDashboard" />
+}

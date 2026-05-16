@@ -1,0 +1,54 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model CustomizedGiftShop.Models.Product
+
+<h2>Edit Product</h2>
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="ProductId"/>
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control"/>
+    </div>
+
+     <div class="form-group">
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control"/>
+    </div>
+
+     <div class="form-group">
+        <label asp-for="Category"></label>
+        <input asp-for="Category" class="form-control"/>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Stock"></label>
+        <input asp-for="Stock" class="form-control"/>
+    </div>
+
+     <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+
+     <div class="form-group">
+        <label>Current Image</label><br />
+        <img src="@Model.ImageUrl"
+        style="width:150px; height:150px; object-fit:cover;"
+        class="mb-2 border"/>
+    </div>
+
+    <div class="form-group">
+        <label>Change Image (optional)</label>
+        <input type="file" name="imageFile" class="form-control"/>
+    </div>
+
+    <input type="hidden" asp-for="ImageUrl"/>
+
+    <button class="btn btn-success" type="submit">Update Product</button>
+    <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

@@ -1,0 +1,64 @@
+﻿@model CustomizedGiftShop.Models.Order
+
+<h2 class="mb-4">Order Invoice</h2>
+
+<div class="card p-4">
+
+    <h5>Order Information</h5>
+    <p><b>Order ID:</b> @Model.OrderId</p>
+    <p><b>Order Date:</b> @Model.OrderDate</p>
+    <p><b>Status:</b> @Model.Status</p>
+
+    <hr />
+
+    <h5>Customer</h5>
+    <p>@Model.Customer.Name</p>
+
+    <hr />
+
+    <h5>Items</h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderDetails)
+            {
+                    <tr>
+                        <td>@item.Product?.Name</td>
+                        <td>@item.Price</td>
+                        <td>@item.Quantity</td>
+                        <td>@(item.Price * item.Quantity)</td>
+                    </tr>
+            }
+        </tbody>
+    </table>
+
+    <h4 class="text-end">
+        Total: <span class="text-success">Rs. @Model.TotalPrice</span>
+    </h4>
+
+    <button onclick="window.print()" class="btn btn-secondary">
+    Print Invoice
+    </button>
+
+    <a asp-controller="Order" asp-action="Index" class="btn btn-success">
+    Mark Order Complete
+    </a>
+
+
+
+    @if (Model.OrderType == "Delivery")
+    {
+            <p><b>Delivery Address:</b> @Model.DeliveryAddress</p>
+    }
+
+    <a asp-controller="POS" asp-action="Index" class="btn btn-primary">
+        New Sale
+    </a>
+</div>

@@ -1,0 +1,37 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model CustomizedGiftShop.Models.Product
+
+<h2>Add New Product</h2>
+
+<form asp-action="Insert" method="post" enctype="multipart/form-data">
+    <div>
+        <label>Name:</label>
+        <input asp-for="Name" class="form-control"/>
+    </div>
+    <div>
+        <label>Price:</label>
+        <input asp-for="Price" class="form-control"/>
+    </div>
+    <div>
+        <label>Category:</label>
+        <input asp-for="Category" class="form-control"/>
+    </div>
+    <div>
+        <label>Stock:</label>
+        <input asp-for="Stock" class="form-control"/>
+    </div>
+    <div>
+        <label>Description:</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+    <div>
+        <label>Product Image</label>
+        <input type="file" name="imageFile" class="form-control"/>
+    </div>
+    <button type="submit" class="btn btn-success mt-3">Add Product</button>
+</form>

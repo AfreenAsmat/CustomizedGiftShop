@@ -1,0 +1,91 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<CustomizedGiftShop.Models.Order>
+
+<div class="container mt-4">
+
+    <h2 class="mb-4 text-center">📊 Sales Report</h2>
+
+    <!-- SUMMARY CARDS -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Total Revenue</h6>
+                    <h4 class="text-success">$@ViewBag.TotalRevenue</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Total Orders</h6>
+                    <h4>@ViewBag.TotalOrders</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Items Sold</h6>
+                    <h4>@ViewBag.TotalItemsSold</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-dark text-center">
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Products</th>
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                        <th>Order Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var order in Model)
+                    {
+                            <tr>
+                                <td class="text-center">@order.OrderId</td>
+                                <td>@order.Customer?.Name</td>
+
+                                <td>
+                                @foreach (var item in order.OrderDetails)
+                                {
+                                            <span class="badge bg-secondary me-1">
+                                        @item.Product?.Name
+                                            </span>
+                                }
+                                </td>
+
+                                <td class="text-center">
+                                @order.OrderDetails.Sum(i => i.Quantity)
+                                </td>
+
+                                <td class="text-success fw-bold">
+                                    $@order.TotalPrice
+                                </td>
+
+                                <td>
+                                @order.OrderDate.ToString("dd MMM yyyy")
+                                </td>
+                            </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

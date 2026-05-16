@@ -1,0 +1,56 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="row g-4">
+
+    <div class="col-md-3">
+        <a asp-controller="POS" asp-action="Index" class="text-decoration-none">
+            <div class="card dashboard-card text-center">
+                <div class="card-body">
+                    <i class="bi bi-cash-coin text-success"></i>
+                    <h5>POS Sale</h5>
+                    <p>Quick checkout</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a asp-controller="Order" asp-action="Insert" class="text-decoration-none">
+            <div class="card dashboard-card text-center">
+                <div class="card-body">
+                    <i class="bi bi-plus-circle text-primary"></i>
+                    <h5>New Order</h5>
+                    <p>Create order</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a asp-controller="Order" asp-action="Index" class="text-decoration-none">
+            <div class="card dashboard-card text-center">
+                <div class="card-body">
+                    <i class="bi bi-clock-history text-warning"></i>
+                    <h5>Orders</h5>
+                    <p>Pending & completed</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a asp-controller="Customer" asp-action="Index" class="text-decoration-none">
+            <div class="card dashboard-card text-center">
+                <div class="card-body">
+                    <i class="bi bi-person-lines-fill text-info"></i>
+                    <h5>Customers</h5>
+                    <p>View customers</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+</div>
